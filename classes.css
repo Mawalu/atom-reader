@@ -1,0 +1,116 @@
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #282828;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+    background: #555;
+}
+
+body > div {
+    background: #333;
+}
+
+.circle {
+    cursor: pointer;
+    visibility: hidden;
+    width: 14px;
+    height: 14px;
+    border-radius: 100%;
+    border: 2px solid gray;
+    margin-top: .25em;
+    transition: .2s background, .2s border;
+}
+
+article:hover .circle {
+    visibility: visible;
+}
+
+.circle.selected, .circle:hover {
+    visibility: visible;
+    background: cornflowerblue;
+    border: 2px solid cornflowerblue;
+}
+
+.circle.selected:hover {
+    background: transparent;
+}
+
+.edit {
+    visibility: hidden;
+    position: absolute;
+    margin-left: -5px;
+}
+
+span:hover .edit {
+    visibility: visible;
+}
+
+.button {
+    background: #444!important;
+    border-bottom: 3px solid transparent;
+}
+
+.button:hover {
+    border-bottom: 3px solid;
+}
+
+.button > * {
+    vertical-align: sub;
+}
+
+.button .fa {
+    margin-left: -20px;
+}
+
+.atom {
+    background-image: url("atom.png");
+}
+
+.atom > div {
+    background: rgba(100, 100, 255, .2);
+    border-top: 1px solid #338;
+    border-bottom: 1px solid #338;
+}
+
+.atom header input, .atom header span {
+    border: 1px solid #338;
+}
+
+.atom header input:focus {
+    border-color: royalblue;
+}
+
+.atom header span:hover {
+    background: #44b;
+    border-color: #44b;
+}
+
+.atom .button {
+    background: #44b!important;
+}
+
+@media (max-width: 480px) {
+    body > header div div:first-child {
+        flex-basis: 65%;
+    }
+    
+    body > header span, body > header input {
+        display: block;
+        width: 100%;
+    }
+    
+    .circle {
+        display: none;
+    }
+}
