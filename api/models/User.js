@@ -21,6 +21,10 @@ module.exports = {
       minLength: 5
     },
     registrationToken: 'string',
+    feeds: {
+      collection: 'feed',
+      via: 'owner',
+    }
   },
 
   /**
@@ -32,7 +36,7 @@ module.exports = {
   checkLogin: function (options, cb) {
     User.findOne({email: options.email}).exec(function (err, theUser) {
       if (err) return cb(err);
-      if (!Object.keys(theUser).length) return cb(new Error('User not found.'));
+      if (!theUser) return cb(new Error('User not found.'));
       bcrypt.compare(options.password, theUser.password, function(err, res) {
         delete theUser.password;
 

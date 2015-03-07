@@ -35,10 +35,14 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
     user: {
-
 		register : true,
         login: true,
         secure: 'sessionAuth',
         '*': false
-	}
+	},
+    feed: {
+        my: 'sessionAuth',
+        create: 'sessionAuth',
+        '*': false
+    }
 };
