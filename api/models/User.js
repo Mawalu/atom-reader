@@ -1,7 +1,7 @@
 /**
 * User.js
 *
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
+* @description :: Store users and user passwords safe
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
@@ -12,25 +12,38 @@ module.exports = {
   attributes: {
     email: {
       type: 'email',
-      unique: true
+      unique: true,
+      required: true
     },
-    password: 'string'
+    password: {
+      type: 'string',
+      required: true,
+      minLength: 5
+    },
+    registrationToken: 'string',
   },
 
+  /**
+   * Search a user using an email and verify the password
+   * @param {Object}    options
+   *            => email {String} email of user
+   * @param {Function}  cb
+   */
   checkLogin: function (options, cb) {
-    User.findOne(obtions.email).exec(function (err, theUser) {
+    User.findOne({email: options.email}).exec(function (err, theUser) {
       if (err) return cb(err);
-      if (!theUser) return cb(new Error('User not found.'));
+      if (!Object.keys(theUser).length) return cb(new Error('User not found.'));
       bcrypt.compare(options.password, theUser.password, function(err, res) {
-        if (err) return cb(err);
-        if (res) return cb(null, theUser.id);
-        cb(new Error('Wrong password.'));
+        delete theUser.password;
+
+        if (res) return cb(null, theUser);
+        return cb(new Error('Wrong password.'));
       });
     });
   },
 
-  // Lifecycle Callbacks
-  beforeCreation: function (values, cb) {
+  // Lifecycle callbacks
+  beforeCreate: function (values, cb) {
     bcrypt.hash(values.password, 12, function(err, hash) {
       if(err) return cb(err);
       values.password = hash;
