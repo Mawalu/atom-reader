@@ -6,6 +6,7 @@
 */
 
 var bcrypt = require('bcrypt');
+var randomstring = require('randomstring');
 
 module.exports = {
 
@@ -48,7 +49,8 @@ module.exports = {
 
   // Lifecycle callbacks
   beforeCreate: function (values, cb) {
-    bcrypt.hash(values.password, 12, function(err, hash) {
+    values.registrationToken = randomstring.generate();
+    bcrypt.hash(values.password, 10, function(err, hash) {
       if(err) return cb(err);
       values.password = hash;
       cb();

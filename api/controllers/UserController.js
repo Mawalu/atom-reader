@@ -5,24 +5,21 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var randomstring = require('randomstring');
 
 module.exports = {
   register: function (req, res) {
     var values = req.allParams();
-    values.registrationToken = randomstring.generate();
-
     User.create(values, function(err, model) {
-        if (err) return res.json(err);
-        delete model.registrationToken;
-        delete model.password;
-
-        return res.json(model);
+      if (err) return res.serverError(err);
+      delete model.registrationToken;
+      delete model.password;
+      return res.json(model);
     });
   },
   login: function (req, res) {
       User.checkLogin(req.allParams(), function(err, model) {
-        if (err) return res.json(err);
+        if (err) return res.serverError(err);
+        if (model.registrationToken) return res.forbidden({"message": "account not activated"});
         req.session.user = model;
         req.session.authenticated = true;
         return res.json(model);

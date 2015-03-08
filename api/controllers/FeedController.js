@@ -8,7 +8,7 @@
 module.exports = {
   my: function (req, res) {
     return Feed.find({owner: req.session.user.id}).exec(function (err, feeds) {
-        if (err) return res.json(err);
+        if (err) return res.serverError(err);
         return res.json(feeds);
     });
   }    

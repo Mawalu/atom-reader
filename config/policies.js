@@ -35,7 +35,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
     user: {
-		register : true,
+        register: true,
         login: true,
         secure: 'sessionAuth',
         '*': false
