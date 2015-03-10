@@ -42,7 +42,11 @@ module.exports.policies = {
 	},
     feed: {
         my: 'sessionAuth',
-        create: 'sessionAuth',
+        create: function(req, res, next) {
+            if (!req.session.authenticated) return res.forbidden("Forbidden");
+            req.body.owner = req.session.user.id;
+            next();
+        },
         '*': false
     }
 };
