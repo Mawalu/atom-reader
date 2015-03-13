@@ -11,6 +11,8 @@ module.exports = {
         if (err) return res.serverError(err);
         return res.json(feeds);
     });
-  }    
+  },
+  update: function (req, res) {
+  }
 };
 

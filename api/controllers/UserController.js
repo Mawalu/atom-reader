@@ -10,20 +10,19 @@ module.exports = {
   register: function (req, res) {
     var values = req.allParams();
     User.create(values, function(err, model) {
-      if (err) return res.serverError(err);
+      if (err) return res.json(err);
       delete model.registrationToken;
       delete model.password;
       return res.json(model);
     });
   },
   login: function (req, res) {
-      User.checkLogin(req.allParams(), function(err, model) {
-        if (err) return res.serverError(err);
-        if (model.registrationToken) return res.forbidden({"message": "account not activated"});
-        req.session.user = model;
-        req.session.authenticated = true;
-        return res.json(model);
-      });
+    User.checkLogin(req.allParams(), function(err, model) {
+      if (err) return res.json(err);
+      req.session.user = model;
+      req.session.authenticated = true;
+      return res.json(model);
+    });
   },
   secure: function (req, res) {
     res.send("protected site");

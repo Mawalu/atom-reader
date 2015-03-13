@@ -37,12 +37,13 @@ module.exports = {
   checkLogin: function (options, cb) {
     User.findOne({email: options.email}).exec(function (err, theUser) {
       if (err) return cb(err);
-      if (!theUser) return cb(new Error('User not found.'));
+      if (!theUser) return cb({'error': 'login failed'});
       bcrypt.compare(options.password, theUser.password, function(err, res) {
         delete theUser.password;
+        delete theUser.registrationToken;
 
         if (res) return cb(null, theUser);
-        return cb(new Error('Wrong password.'));
+        return cb({'error': 'login failed'});
       });
     });
   },
@@ -57,4 +58,3 @@ module.exports = {
     });
   }
 };
-
